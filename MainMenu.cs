@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.IO.Enumeration;
+using System.Data.Common;
 using System.Linq;
 
 public partial class MainMenu : Node2D
@@ -13,12 +13,14 @@ public partial class MainMenu : Node2D
 	private Container GameCreation;
 	private LineEdit SaveName;
 	private ItemList List;
+	private Button WindowMode;
 	private List<string> Saves;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		DirAccess.MakeDirAbsolute("user://saves");
+		InitSettings();
 
 		Main = GetNode<Container>("MenuButtons/MainMenu");
 		Settings = GetNode<Container>("MenuButtons/SettingsMenu");
@@ -27,6 +29,7 @@ public partial class MainMenu : Node2D
 		GameCreation = GetNode<Container>("GameCreation");
 		SaveName = GetNode<LineEdit>("GameCreation/VBoxContainer/SaveName");
 		List = GetNode<ItemList>("MenuButtons/LoadMenu/Saves");
+		WindowMode = GetNode<Button>("MenuButtons/SettingsMenu/WindowMode");
 
 		Saves = new List<string>();
 	}
@@ -43,13 +46,15 @@ public partial class MainMenu : Node2D
 	}
 	public void _on_load_pressed()
 	{
+		UpdateLoadList();
+
 		Main.Visible = false;
 		Load.Visible = true;
-
-		UpdateLoadList();
 	}
 	public void _on_settings_pressed()
 	{
+		WindowMode.Text = DataManager.Settings.WindowMode == 0 ? "Windowed" : DataManager.Settings.WindowMode == 1 ? "Borderless Windowed" : "Fullscreen";
+
 		Main.Visible = false;
 		Settings.Visible = true;
 	}
@@ -125,5 +130,24 @@ public partial class MainMenu : Node2D
 			DataManager.Load(Saves.ElementAt<string>(index));
 			GetTree().ChangeSceneToFile("res://Game.tscn");
 		}
+	}
+
+	private void InitSettings()
+	{
+		if(!DirAccess.Open("user://").FileExists(".settings"))
+		{
+			var file = FileAccess.Open("user://.settings", FileAccess.ModeFlags.Write);
+			
+			file.Store8(1);
+
+			file.Close();
+		}
+		var settings = FileAccess.Open("user://.settings", FileAccess.ModeFlags.Read);
+		byte windowMode = settings.Get8();
+
+		if(windowMode == 0) DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
+		else if(windowMode == 2) DisplayServer.WindowSetMode(DisplayServer.WindowMode.ExclusiveFullscreen);
+
+		DataManager.Settings.WindowMode = windowMode;
 	}
 }

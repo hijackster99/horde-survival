@@ -6,6 +6,11 @@ public partial class DataManager : GodotObject
     public static string name;
     public static string filename;
 
+    public static class Settings
+    {
+        public static byte WindowMode;
+    }
+
     public static void Save()
     {
         var file = FileAccess.Open("user://saves//" + filename, FileAccess.ModeFlags.Write);
