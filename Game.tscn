@@ -1,71 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://l8xc1pms170x"]
+[gd_scene load_steps=3 format=3 uid="uid://l8xc1pms170x"]
 
 [ext_resource type="Script" uid="uid://nmt8qe3tlly6" path="res://Game.cs" id="1_wbfu4"]
-[ext_resource type="Texture2D" uid="uid://bpjxvx7xjr4fr" path="res://arrows/arrows1-sheet.png" id="2_xkndl"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xkndl"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(0, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u44n3"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(56, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sb48q"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(112, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t88pq"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(168, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r0x5m"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(224, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3mrqo"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(280, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_joorw"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(336, 0, 56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2vekm"]
-atlas = ExtResource("2_xkndl")
-region = Rect2(392, 0, 56, 56)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_yx171"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xkndl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u44n3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sb48q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t88pq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r0x5m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3mrqo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_joorw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2vekm")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="PackedScene" uid="uid://c8t0fikxrpcgf" path="res://player.tscn" id="2_xkndl"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_wbfu4")
@@ -108,13 +44,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Close"
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(78, 186)
+[node name="player" parent="." instance=ExtResource("2_xkndl")]
+position = Vector2(572, 411)
+up_direction = Vector2(1, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
-sprite_frames = SubResource("SpriteFrames_yx171")
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
 
 [connection signal="pressed" from="PauseMenu/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/VBoxContainer/Close" to="." method="_on_close_pressed"]
