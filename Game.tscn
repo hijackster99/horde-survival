@@ -1,4 +1,70 @@
-[gd_scene format=3 uid="uid://l8xc1pms170x"]
+[gd_scene load_steps=11 format=3 uid="uid://l8xc1pms170x"]
+
+[ext_resource type="Texture2D" uid="uid://bpjxvx7xjr4fr" path="res://arrows/arrows1-sheet.png" id="1_wbfu4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkndl"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(0, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u44n3"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(56, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sb48q"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(112, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t88pq"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(168, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0x5m"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(224, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mrqo"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(280, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joorw"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(336, 0, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vekm"]
+atlas = ExtResource("1_wbfu4")
+region = Rect2(392, 0, 56, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yx171"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkndl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u44n3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sb48q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t88pq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0x5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mrqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_joorw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vekm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Node2D" type="Node2D"]
 
@@ -10,3 +76,11 @@ theme_override_font_sizes/font_size = 80
 text = "Game Screen"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(78, 186)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_yx171")
