@@ -74,14 +74,25 @@ text = "Back"
 [node name="SettingsMenu" type="VBoxContainer" parent="MenuButtons"]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="WindowMode" type="Button" parent="MenuButtons/SettingsMenu"]
-custom_minimum_size = Vector2(0, 77)
+custom_minimum_size = Vector2(500, 77)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 
-[node name="Back" type="Button" parent="MenuButtons/SettingsMenu"]
-custom_minimum_size = Vector2(300, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuButtons/SettingsMenu"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Apply" type="Button" parent="MenuButtons/SettingsMenu/HBoxContainer"]
+custom_minimum_size = Vector2(244, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Apply"
+
+[node name="Back" type="Button" parent="MenuButtons/SettingsMenu/HBoxContainer"]
+custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Back"
@@ -126,6 +137,8 @@ text = "Back"
 [connection signal="item_activated" from="MenuButtons/LoadMenu/Saves" to="." method="_on_saves_item_activated"]
 [connection signal="pressed" from="MenuButtons/LoadMenu/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="MenuButtons/LoadMenu/HBoxContainer/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="MenuButtons/SettingsMenu/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="MenuButtons/SettingsMenu/WindowMode" to="." method="_on_window_mode_pressed"]
+[connection signal="pressed" from="MenuButtons/SettingsMenu/HBoxContainer/Apply" to="." method="_on_apply_pressed"]
+[connection signal="pressed" from="MenuButtons/SettingsMenu/HBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="GameCreation/VBoxContainer/HBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="GameCreation/VBoxContainer/HBoxContainer/Back" to="." method="_on_back_pressed"]
