@@ -31,9 +31,14 @@ public partial class Player_movement : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		GetInput();
-		//float normalLerp = _goalRotation.Angle()-Rotation;
-		//if(normal)
-		Rotation = Mathf.Lerp(Rotation,_goalRotation.Angle(),(float)delta*4.0f);
+		float normalLerp = _goalRotation.Angle()-Rotation;
+		GD.Print("Nlerp: "+normalLerp);
+		float weight = 4.0f;
+		if(normalLerp>Math.PI){
+			GD.Print("ReducedLerp");
+			weight*=-1;
+		}
+		Rotation = Mathf.Lerp(Rotation,_goalRotation.Angle(),(float)delta*weight);
 		GD.Print("Rotation " + (Rotation*(Math.PI/180)));
 		//Rotation += _rotateLR* RotationSpeed * (float)delta;
 		//Rotation += _rotateUD * RotationSpeed * (float)delta;
