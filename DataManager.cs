@@ -9,6 +9,19 @@ public partial class DataManager : GodotObject
     public static class Settings
     {
         public static byte WindowMode;
+
+        public static void Save()
+        {
+            var file = FileAccess.Open("user://.settings", FileAccess.ModeFlags.Write);
+            file.Store8(WindowMode);
+            file.Close();
+        }
+        public static void Load()
+        {
+		    var file = FileAccess.Open("user://.settings", FileAccess.ModeFlags.Read);
+            WindowMode = file.Get8();
+            file.Close();
+        }
     }
 
     public static void Save()

@@ -132,6 +132,32 @@ public partial class MainMenu : Node2D
 		}
 	}
 
+	public void _on_window_mode_pressed()
+	{
+		if(DataManager.Settings.WindowMode == 0)
+		{
+			DataManager.Settings.WindowMode++;
+			WindowMode.Text = "Borderless Windowed";
+		}else if(DataManager.Settings.WindowMode == 1)
+		{
+			DataManager.Settings.WindowMode++;
+			WindowMode.Text = "Fullscreen";
+		}else
+		{
+			DataManager.Settings.WindowMode = 0;
+			WindowMode.Text = "Windowed";
+		}
+	}
+
+	public void _on_apply_pressed()
+	{
+		if(DataManager.Settings.WindowMode == 0) DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
+		else if(DataManager.Settings.WindowMode == 1) DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+		else DisplayServer.WindowSetMode(DisplayServer.WindowMode.ExclusiveFullscreen);
+
+		DataManager.Settings.Save();
+	}
+
 	private void InitSettings()
 	{
 		if(!DirAccess.Open("user://").FileExists(".settings"))
@@ -142,12 +168,9 @@ public partial class MainMenu : Node2D
 
 			file.Close();
 		}
-		var settings = FileAccess.Open("user://.settings", FileAccess.ModeFlags.Read);
-		byte windowMode = settings.Get8();
+		DataManager.Settings.Load();
 
-		if(windowMode == 0) DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
-		else if(windowMode == 2) DisplayServer.WindowSetMode(DisplayServer.WindowMode.ExclusiveFullscreen);
-
-		DataManager.Settings.WindowMode = windowMode;
+		if(DataManager.Settings.WindowMode == 0) DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
+		else if(DataManager.Settings.WindowMode == 2) DisplayServer.WindowSetMode(DisplayServer.WindowMode.ExclusiveFullscreen);
 	}
 }
