@@ -21,7 +21,6 @@ offset_right = 1290.0
 offset_bottom = 1080.0
 
 [node name="MainMenu" type="VBoxContainer" parent="MenuButtons"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
@@ -73,6 +72,7 @@ theme_override_font_sizes/font_size = 50
 text = "Back"
 
 [node name="SettingsMenu" type="VBoxContainer" parent="MenuButtons"]
+visible = false
 layout_mode = 2
 
 [node name="WindowMode" type="Button" parent="MenuButtons/SettingsMenu"]
