@@ -29,13 +29,13 @@ public partial class Game : Node2D
 		PauseMenu.Visible = false;
 	}
 
-    public override void _Input(InputEvent @event)
-    {
-        if(@event.IsActionPressed("Pause") && !paused)
+	public override void _Input(InputEvent @event)
+	{
+		if(@event.IsActionPressed("Pause") && !paused)
 		{
 			paused = true;
 			PauseMenu.Visible = true;
 		}
-    }
+	}
 
 }
