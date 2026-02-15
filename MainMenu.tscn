@@ -14,58 +14,112 @@ text = "Game Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="MenuButtons" type="CenterContainer" parent="."]
 offset_left = 210.0
 offset_top = 300.0
 offset_right = 1290.0
 offset_bottom = 1080.0
 
-[node name="MainMenu" type="VBoxContainer" parent="CenterContainer"]
+[node name="MainMenu" type="VBoxContainer" parent="MenuButtons"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Play" type="Button" parent="CenterContainer/MainMenu"]
+[node name="Play" type="Button" parent="MenuButtons/MainMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Play"
 
-[node name="Load" type="Button" parent="CenterContainer/MainMenu"]
+[node name="Load" type="Button" parent="MenuButtons/MainMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Load"
 
-[node name="Settings" type="Button" parent="CenterContainer/MainMenu"]
+[node name="Settings" type="Button" parent="MenuButtons/MainMenu"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Settings"
 
-[node name="Quit" type="Button" parent="CenterContainer/MainMenu"]
+[node name="Quit" type="Button" parent="MenuButtons/MainMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Quit"
 
-[node name="LoadMenu" type="VBoxContainer" parent="CenterContainer"]
+[node name="LoadMenu" type="VBoxContainer" parent="MenuButtons"]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Back" type="Button" parent="CenterContainer/LoadMenu"]
+[node name="Saves" type="ItemList" parent="MenuButtons/LoadMenu"]
+custom_minimum_size = Vector2(700, 400)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuButtons/LoadMenu"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Select" type="Button" parent="MenuButtons/LoadMenu/HBoxContainer"]
+custom_minimum_size = Vector2(344, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Select"
+
+[node name="Back" type="Button" parent="MenuButtons/LoadMenu/HBoxContainer"]
+custom_minimum_size = Vector2(344, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Back"
 
-[node name="SettingsMenu" type="VBoxContainer" parent="CenterContainer"]
+[node name="SettingsMenu" type="VBoxContainer" parent="MenuButtons"]
 visible = false
 layout_mode = 2
 
-[node name="Back" type="Button" parent="CenterContainer/SettingsMenu"]
+[node name="Back" type="Button" parent="MenuButtons/SettingsMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Back"
 
-[connection signal="pressed" from="CenterContainer/MainMenu/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CenterContainer/MainMenu/Load" to="." method="_on_load_pressed"]
-[connection signal="pressed" from="CenterContainer/MainMenu/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="CenterContainer/MainMenu/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="CenterContainer/LoadMenu/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="CenterContainer/SettingsMenu/Back" to="." method="_on_back_pressed"]
+[node name="GameCreation" type="CenterContainer" parent="."]
+visible = false
+offset_top = 300.0
+offset_right = 1920.0
+offset_bottom = 800.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameCreation"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SaveName" type="LineEdit" parent="GameCreation/VBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Save Name"
+max_length = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameCreation/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Start" type="Button" parent="GameCreation/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(242, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Play"
+
+[node name="Back" type="Button" parent="GameCreation/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(242, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[connection signal="pressed" from="MenuButtons/MainMenu/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MenuButtons/MainMenu/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="MenuButtons/MainMenu/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MenuButtons/MainMenu/Quit" to="." method="_on_quit_pressed"]
+[connection signal="item_activated" from="MenuButtons/LoadMenu/Saves" to="." method="_on_saves_item_activated"]
+[connection signal="pressed" from="MenuButtons/LoadMenu/HBoxContainer/Select" to="." method="_on_select_pressed"]
+[connection signal="pressed" from="MenuButtons/LoadMenu/HBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="MenuButtons/SettingsMenu/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="GameCreation/VBoxContainer/HBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="GameCreation/VBoxContainer/HBoxContainer/Back" to="." method="_on_back_pressed"]
