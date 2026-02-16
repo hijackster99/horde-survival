@@ -13,7 +13,8 @@ public partial class MainMenu : Node2D
 	private Container GameCreation;
 	private LineEdit SaveName;
 	private ItemList List;
-	private Button WindowMode;
+	private ItemList Dates;
+	private OptionButton WindowMode;
 	private List<string> Saves;
 
 	// Called when the node enters the scene tree for the first time.
@@ -28,8 +29,9 @@ public partial class MainMenu : Node2D
 		MenuButtons = GetNode<Container>("MenuButtons");
 		GameCreation = GetNode<Container>("GameCreation");
 		SaveName = GetNode<LineEdit>("GameCreation/VBoxContainer/SaveName");
-		List = GetNode<ItemList>("MenuButtons/LoadMenu/Saves");
-		WindowMode = GetNode<Button>("MenuButtons/SettingsMenu/WindowMode");
+		List = GetNode<ItemList>("MenuButtons/LoadMenu/HBoxContainer2/Saves");
+		Dates = GetNode<ItemList>("MenuButtons/LoadMenu/HBoxContainer2/SaveDates");
+		WindowMode = GetNode<OptionButton>("MenuButtons/SettingsMenu/WindowMode");
 
 		Saves = new List<string>();
 	}
@@ -53,7 +55,7 @@ public partial class MainMenu : Node2D
 	}
 	public void _on_settings_pressed()
 	{
-		WindowMode.Text = DataManager.Settings.WindowMode == 0 ? "Windowed" : DataManager.Settings.WindowMode == 1 ? "Borderless Windowed" : "Fullscreen";
+		WindowMode.Select(DataManager.Settings.WindowMode);
 
 		Main.Visible = false;
 		Settings.Visible = true;
@@ -77,15 +79,17 @@ public partial class MainMenu : Node2D
 		if(name != "")
 		{
 			string filename = GetFileName(name);
+			string finalName = filename;
 			int i = 1;
 			while(FileAccess.FileExists("user://saves//" + filename + ".dat"))
 			{
-				filename = filename + "_" + i;
+				finalName = filename + "_" + i;
 				i++;
 			}
 
 			DataManager.name = name;
-			DataManager.filename = filename + ".dat";
+			DataManager.filename = finalName + ".dat";
+			DataManager.SetTimeCreated((ulong)Time.GetUnixTimeFromSystem());
 			DataManager.Save();
 
 			GetTree().ChangeSceneToFile("res://Game.tscn");
@@ -108,8 +112,10 @@ public partial class MainMenu : Node2D
 		{
 			foreach(string file in dir.GetFiles())
 			{
-				string name = DataManager.LoadName(file);
-				List.AddItem(name);
+				string name, date, timePlayed;
+				DataManager.LoadFileInfo(file, out name, out date, out timePlayed);
+				List.AddItem(name + "\n" + file);
+				Dates.AddItem(date + "\n" + timePlayed, null, false);
 				Saves.Add(file);
 			}
 		}
@@ -132,21 +138,9 @@ public partial class MainMenu : Node2D
 		}
 	}
 
-	public void _on_window_mode_pressed()
+	public void _on_window_mode_item_selected(int index)
 	{
-		if(DataManager.Settings.WindowMode == 0)
-		{
-			DataManager.Settings.WindowMode++;
-			WindowMode.Text = "Borderless Windowed";
-		}else if(DataManager.Settings.WindowMode == 1)
-		{
-			DataManager.Settings.WindowMode++;
-			WindowMode.Text = "Fullscreen";
-		}else
-		{
-			DataManager.Settings.WindowMode = 0;
-			WindowMode.Text = "Windowed";
-		}
+		DataManager.Settings.WindowMode = (byte)index;
 	}
 
 	public void _on_apply_pressed()
