@@ -40,6 +40,7 @@ public partial class DataManager : GodotObject
         if(Position != null)
         {
             file.StorePascalString("Player");
+            file.Store8(2);
             file.StorePascalString("Pos");
             file.StoreFloat(Position.Value.X);
             file.StoreFloat(Position.Value.Y);
@@ -78,7 +79,8 @@ public partial class DataManager : GodotObject
             item = file.GetPascalString();
             if(item == "Player")
             {
-                for(int i = 0; i < file.Get32(); i++)
+                byte b = file.Get8();
+                for(int i = 0; i < b; i++)
                 {
                     item = file.GetPascalString();
                     if(item == "Pos")
