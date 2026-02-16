@@ -6,6 +6,7 @@ public partial class DataManager : GodotObject
 {
     public static string name;
     public static string filename;
+    public static Vector2? Position = null;
 
     private static ulong TimeCreated;
 
@@ -32,7 +33,22 @@ public partial class DataManager : GodotObject
         var file = FileAccess.Open("user://saves//" + filename, FileAccess.ModeFlags.Write);
         file.StoreLine(name);
         file.Store64(TimeCreated);
+        if(Position != null)
+        {
+            file.StorePascalString("Player");
+            file.StorePascalString("Pos");
+            file.StoreFloat(Position.Value.X);
+            file.StoreFloat(Position.Value.Y);
+        }
         file.Close();
+    }
+
+    public static void Clear()
+    {
+        name = "";
+        filename = "";
+        Position = null;
+        TimeCreated = 0;
     }
 
     public static void Load(string filename)
@@ -41,6 +57,17 @@ public partial class DataManager : GodotObject
 		var file = FileAccess.Open("user://saves//" + filename, FileAccess.ModeFlags.Read);
         name = file.GetLine();
         TimeCreated = file.Get64();
+        string item = file.GetPascalString();
+        if(item == "Player")
+        {
+            item = file.GetPascalString();
+            if(item == "Pos")
+            {
+                float x = file.GetFloat();
+                float y = file.GetFloat();
+                Position = new Vector2(x, y);
+            }
+        }
         file.Close();
     }
 

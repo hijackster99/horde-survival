@@ -1,21 +1,32 @@
 [gd_scene load_steps=4 format=3 uid="uid://l8xc1pms170x"]
 
 [ext_resource type="Script" uid="uid://nmt8qe3tlly6" path="res://Game.cs" id="1_wbfu4"]
-[ext_resource type="PackedScene" uid="uid://bom58myj283of" path="res://player.tscn" id="3_u44n3"]
+[ext_resource type="PackedScene" uid="uid://c8t0fikxrpcgf" path="res://player.tscn" id="3_u44n3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xkndl"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_wbfu4")
 
-[node name="PauseMenu" type="Control" parent="."]
+[node name="player" parent="." instance=ExtResource("3_u44n3")]
+unique_name_in_owner = true
+position = Vector2(457, 335)
+physics_material_override = SubResource("PhysicsMaterial_xkndl")
+gravity_scale = 0.0
+linear_damp = 10.0
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Pause" type="Label" parent="PauseMenu"]
+[node name="Pause" type="Label" parent="CanvasLayer/PauseMenu"]
 layout_mode = 0
 offset_top = 150.0
 offset_right = 1920.0
@@ -25,36 +36,26 @@ text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PauseMenu"]
 layout_mode = 0
 offset_top = 300.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu/CenterContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="MainMenu" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+[node name="MainMenu" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Main Menu"
 
-[node name="Close" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+[node name="Close" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Close"
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 540)
-
-[node name="player" parent="." instance=ExtResource("3_u44n3")]
-unique_name_in_owner = true
-position = Vector2(457, 335)
-physics_material_override = SubResource("PhysicsMaterial_xkndl")
-gravity_scale = 0.0
-linear_damp = 10.0
-
-[connection signal="pressed" from="PauseMenu/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
-[connection signal="pressed" from="PauseMenu/CenterContainer/VBoxContainer/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Close" to="." method="_on_close_pressed"]

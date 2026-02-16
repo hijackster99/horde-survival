@@ -22,7 +22,7 @@ public partial class Player_movement : RigidBody2D
 		_xAxis = Input.GetAxis("look_left","look_right");
 		//GD.Print(_xAxis);
 		_yAxis = Input.GetAxis("look_up","look_down");
-		GD.Print(GetNode<AnimatedSprite2D>("reticule").Position);
+		GD.Print(Position);
 		if(_xAxis!=0 || _yAxis!=0 ){
 			GetNode<AnimatedSprite2D>("reticule").Position+=new Vector2(_xAxis,_yAxis);
 			a=(float)Math.PI;//Position.AngleToPoint(GetNode<AnimatedSprite2D>("reticule").Position);
@@ -46,11 +46,13 @@ public partial class Player_movement : RigidBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		GetInput();
+		DataManager.Position = Position;
 	}
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if(DataManager.Position != null) Position = DataManager.Position.Value;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

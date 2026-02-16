@@ -81,7 +81,7 @@ public partial class MainMenu : Node2D
 			string filename = GetFileName(name);
 			string finalName = filename;
 			int i = 1;
-			while(FileAccess.FileExists("user://saves//" + filename + ".dat"))
+			while(FileAccess.FileExists("user://saves//" + finalName + ".dat"))
 			{
 				finalName = filename + "_" + i;
 				i++;
