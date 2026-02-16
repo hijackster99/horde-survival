@@ -11,6 +11,9 @@ public partial class Player_movement : RigidBody2D
 
 	private float _yAxis;
 	private float _xAxis;
+	
+	private Vector2 retLoc = new Vector2(0,0);
+	
 	private Vector2 _forwardVector;
 	
 	public void GetInput()
@@ -19,9 +22,14 @@ public partial class Player_movement : RigidBody2D
 		_xAxis = Input.GetAxis("look_left","look_right");
 		//GD.Print(_xAxis);
 		_yAxis = Input.GetAxis("look_up","look_down");
+		GD.Print(GetNode<AnimatedSprite2D>("reticule").Position);
 		if(_xAxis!=0 || _yAxis!=0 ){
-			a=new Vector2(_xAxis,_yAxis).Angle();
+			GetNode<AnimatedSprite2D>("reticule").Position+=new Vector2(_xAxis,_yAxis);
+			a=(float)Math.PI;//Position.AngleToPoint(GetNode<AnimatedSprite2D>("reticule").Position);
+			//a=new Vector2(_xAxis,_yAxis).Angle(); look in a DIRECTION with rightStick
+			//GetNode("reticule").Position;
 		}else{
+			GetNode<AnimatedSprite2D>("reticule").Position = GetGlobalMousePosition()-Position;
 			a = GetGlobalMousePosition().AngleToPoint(Position)+(float)Math.PI;
 		}
 		
@@ -31,7 +39,8 @@ public partial class Player_movement : RigidBody2D
 		
 		_forwardVector=_forwardVector.Normalized();
 		ApplyCentralForce(_forwardVector * Speed);
-		Rotation = a;
+		GetNode<AnimatedSprite2D>("sprite").Rotation = a;
+		GetNode<CollisionShape2D>("collision").Rotation = a;
 	}
 	
 	public override void _PhysicsProcess(double delta)
