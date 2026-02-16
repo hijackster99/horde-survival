@@ -1,49 +1,69 @@
 using Godot;
 using System;
 
-public partial class Player_movement : CharacterBody2D
+public partial class Player_movement : RigidBody2D
 {
 	[Export]
-	public int Speed { get; set; } = 40;
+	public int Speed { get; set; } = 2500;
 
 	[Export]
 	public float RotationSpeed { get; set; } = 1.5f;
 
 	private float _rotationDirection;
-	private float _rotateUD;
-	private float _rotateLR;
-	private Vector2 _goalRotation;
+	private float _yAxis;
+	private float _xAxis;
+	private Vector2 _forwardVector;
 	
 	public void GetInput()
 	{
 		//_rotationDirection = Input.GetAxis("move_left", "move_right");
-		
-		_rotateLR = Input.GetAxis("move_left", "move_right");
-		//GD.Print(_rotateLR);
-		_rotateUD = Input.GetAxis("move_up", "move_down");
-		_goalRotation += new Vector2(_rotateLR,_rotateUD);
-		GD.Print("Goalrotation " + (_goalRotation.Angle()*(Math.PI/180)));
-		_goalRotation=_goalRotation.Normalized();
+		//GD.Print("Goalrotation " + (_goalRotation.Angle()*(Math.PI/180)));
 		//Velocity = Transform.X * Input.GetAxis("move_down", "move_up") * Speed;
-		Velocity = _goalRotation.Normalized() * Speed;
+		//LookAt(GetGlobalMousePosition());
+		float a;
+		_xAxis = Input.GetAxis("look_left","look_right");
+		//GD.Print(_xAxis);
+		_yAxis = Input.GetAxis("look_up","look_down");
+		if(_xAxis!=0 || _yAxis!=0 ){
+			a=new Vector2(_xAxis,_yAxis).Angle();
+		}else{
+			a = GetGlobalMousePosition().AngleToPoint(Position)+(float)Math.PI;
+		}
+		
+		
+		//GD.Print(Position);
+		_xAxis = Input.GetAxis("move_left", "move_right");
+		//GD.Print(_xAxis);
+		_yAxis = Input.GetAxis("move_up", "move_down");
+		//GD.Print(_yAxis);
+		_forwardVector = new Vector2(_xAxis,_yAxis);
+		//GD.Print(_forwardVector);
+		
+		_forwardVector=_forwardVector.Normalized();
+		//Velocity = _goalRotation * Speed;
+		ApplyCentralForce(_forwardVector * Speed);
+		Rotation = a;//LinearVelocity.Angle();
+		
 	}
 	
 	public override void _PhysicsProcess(double delta)
 	{
 		GetInput();
-		float normalLerp = _goalRotation.Angle()-Rotation;
+		
+		//MoveAndSlide();
+		/*float normalLerp = _goalRotation.Angle()-Rotation;
 		GD.Print("Nlerp: "+normalLerp);
 		float weight = 4.0f;
 		if(normalLerp>Math.PI){
 			GD.Print("ReducedLerp");
 			weight*=-1;
-		}
-		Rotation = Mathf.Lerp(Rotation,_goalRotation.Angle(),(float)delta*weight);
-		GD.Print("Rotation " + (Rotation*(Math.PI/180)));
+		}*/
+		//Rotation = Mathf.Lerp(Rotation,_goalRotation.Angle(),(float)delta*weight);
+		//GD.Print("Rotation " + (Rotation*(Math.PI/180)));
 		//Rotation += _rotateLR* RotationSpeed * (float)delta;
 		//Rotation += _rotateUD * RotationSpeed * (float)delta;
 		//GD.Print(_goalRotation);
-		MoveAndSlide();
+		
 		//Rotation = Input.GetAxis()
 		//GD.Print(Transform.X.Normalized());
 		//GD.Print(Position.X);

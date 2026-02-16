@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://bom58myj283of"]
+[gd_scene load_steps=5 format=3 uid="uid://c8t0fikxrpcgf"]
 
-[ext_resource type="Script" uid="uid://d2pju202fsu8e" path="res://Player_movement.cs" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://cm60yi31w4im5" path="res://arrows/arrows1.png" id="4_2hs0m"]
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4flbx"]
@@ -10,7 +9,7 @@ points = PackedVector2Array(9, -16, 1, -16, 1, 28, -1, 28, -1, -16, -9, -16, 0, 
 atlas = ExtResource("4_2hs0m")
 region = Rect2(0, 0, 56, 56)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_yx171"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -21,15 +20,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="player" type="RigidBody2D"]
-script = ExtResource("1_hqtel")
+[node name="player" type="CharacterBody2D"]
 
 [node name="collision" type="CollisionShape2D" parent="."]
-rotation = 1.5707964
+rotation = -1.5707964
 shape = SubResource("ConvexPolygonShape2D_4flbx")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
-rotation = 1.5707964
-sprite_frames = SubResource("SpriteFrames_onrkg")
+rotation = -1.5707964
+sprite_frames = SubResource("SpriteFrames_yx171")
 animation = &"up"

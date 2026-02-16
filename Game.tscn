@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://l8xc1pms170x"]
+[gd_scene load_steps=4 format=3 uid="uid://l8xc1pms170x"]
 
 [ext_resource type="Script" uid="uid://nmt8qe3tlly6" path="res://Game.cs" id="1_wbfu4"]
-[ext_resource type="PackedScene" uid="uid://c8t0fikxrpcgf" path="res://player.tscn" id="2_xkndl"]
+[ext_resource type="PackedScene" uid="uid://bom58myj283of" path="res://player.tscn" id="3_u44n3"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xkndl"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_wbfu4")
@@ -44,12 +46,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Close"
 
-[node name="player" parent="." instance=ExtResource("2_xkndl")]
-position = Vector2(572, 411)
-up_direction = Vector2(1, 0)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
+
+[node name="player" parent="." instance=ExtResource("3_u44n3")]
+unique_name_in_owner = true
+position = Vector2(457, 335)
+physics_material_override = SubResource("PhysicsMaterial_xkndl")
+gravity_scale = 0.0
+linear_damp = 10.0
 
 [connection signal="pressed" from="PauseMenu/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/VBoxContainer/Close" to="." method="_on_close_pressed"]
