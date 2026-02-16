@@ -105,6 +105,8 @@ public partial class MainMenu : Node2D
 
 	private void UpdateLoadList()
 	{
+		List.Clear();
+		Dates.Clear();
 		Saves.Clear();
 
 		var dir = DirAccess.Open("user://saves");

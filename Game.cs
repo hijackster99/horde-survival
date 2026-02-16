@@ -4,12 +4,16 @@ using System;
 public partial class Game : Node2D
 {
 	private Control PauseMenu;
+	private Control InventoryMenu;
 	private RigidBody2D player;
+
+	private bool inventory = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		PauseMenu = GetNode<Control>("CanvasLayer/PauseMenu");
+		InventoryMenu = GetNode<Control>("CanvasLayer/InventoryMenu");
 		player = GetNode<RigidBody2D>("player");
 		ProcessMode = ProcessModeEnum.Always;
 		
@@ -40,8 +44,15 @@ public partial class Game : Node2D
 	{
 		if(@event.IsActionPressed("Pause"))
 		{
+			if(inventory) InventoryMenu.Visible = PauseMenu.Visible;
 			PauseMenu.Visible = !PauseMenu.Visible;
 			GetTree().Paused = PauseMenu.Visible;
+		}
+		else if(@event.IsActionPressed("Inventory") && !PauseMenu.Visible)
+		{
+			inventory = !inventory;
+			InventoryMenu.Visible = !InventoryMenu.Visible;
+			GetTree().Paused = InventoryMenu.Visible;
 		}
 	}
 

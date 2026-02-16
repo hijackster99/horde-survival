@@ -1,7 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://l8xc1pms170x"]
+[gd_scene load_steps=9 format=3 uid="uid://l8xc1pms170x"]
 
 [ext_resource type="Script" uid="uid://nmt8qe3tlly6" path="res://Game.cs" id="1_wbfu4"]
+[ext_resource type="Script" uid="uid://23lsfq46ak2y" path="res://InventoryMenu.cs" id="3_3mrqo"]
 [ext_resource type="PackedScene" uid="uid://c8t0fikxrpcgf" path="res://player.tscn" id="3_u44n3"]
+[ext_resource type="Texture2D" uid="uid://trmsumvsj0rm" path="res://icon.svg" id="4_joorw"]
+[ext_resource type="Texture2D" uid="uid://b06r0b8d8f2lr" path="res://tiles/grass_tile.png" id="5_2vekm"]
+[ext_resource type="Texture2D" uid="uid://h6it4vf8yxj" path="res://arrows/reticule.png" id="6_yx171"]
+[ext_resource type="Texture2D" uid="uid://cm60yi31w4im5" path="res://arrows/arrows1.png" id="7_yhmtn"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xkndl"]
 
@@ -57,5 +62,73 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Close"
 
+[node name="InventoryMenu" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_3mrqo")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/InventoryMenu"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/InventoryMenu/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="EquippedWeapons" type="HBoxContainer" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Slot1" type="Button" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+expand_icon = true
+
+[node name="Slot2" type="Button" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+expand_icon = true
+
+[node name="Slot3" type="Button" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+expand_icon = true
+
+[node name="Slot4" type="Button" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+expand_icon = true
+
+[node name="Inventory" type="ItemList" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(700, 500)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 30
+item_count = 4
+fixed_icon_size = Vector2i(50, 50)
+item_0/text = "Godot Gun"
+item_0/icon = ExtResource("4_joorw")
+item_1/text = "Grass Blaster"
+item_1/icon = ExtResource("5_2vekm")
+item_2/text = "Airstrike"
+item_2/icon = ExtResource("6_yx171")
+item_3/text = "Up Gun"
+item_3/icon = ExtResource("7_yhmtn")
+
+[node name="SelfUpgrade" type="Button" parent="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "Self Upgrades"
+
 [connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons/Slot1" to="CanvasLayer/InventoryMenu" method="_on_slot_1_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons/Slot2" to="CanvasLayer/InventoryMenu" method="_on_slot_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons/Slot3" to="CanvasLayer/InventoryMenu" method="_on_slot_3_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryMenu/CenterContainer/VBoxContainer/EquippedWeapons/Slot4" to="CanvasLayer/InventoryMenu" method="_on_slot_4_pressed"]

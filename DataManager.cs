@@ -7,6 +7,10 @@ public partial class DataManager : GodotObject
     public static string name;
     public static string filename;
     public static Vector2? Position = null;
+    public static int Slot1 = -1;
+    public static int Slot2 = -1;
+    public static int Slot3 = -1;
+    public static int Slot4 = -1;
 
     private static ulong TimeCreated;
 
@@ -39,7 +43,14 @@ public partial class DataManager : GodotObject
             file.StorePascalString("Pos");
             file.StoreFloat(Position.Value.X);
             file.StoreFloat(Position.Value.Y);
+            file.StorePascalString("Equip");
+            file.Store64(unchecked((uint) Slot1));
+            file.Store64(unchecked((uint) Slot2));
+            file.Store64(unchecked((uint) Slot3));
+            file.Store64(unchecked((uint) Slot4));
         }
+        
+
         file.Close();
     }
 
@@ -49,6 +60,10 @@ public partial class DataManager : GodotObject
         filename = "";
         Position = null;
         TimeCreated = 0;
+        Slot1 = -1;
+        Slot2 = -1;
+        Slot3 = -1;
+        Slot4 = -1;
     }
 
     public static void Load(string filename)
@@ -57,15 +72,30 @@ public partial class DataManager : GodotObject
 		var file = FileAccess.Open("user://saves//" + filename, FileAccess.ModeFlags.Read);
         name = file.GetLine();
         TimeCreated = file.Get64();
-        string item = file.GetPascalString();
-        if(item == "Player")
+        string item;
+        while(file.GetPosition() < file.GetLength())
         {
             item = file.GetPascalString();
-            if(item == "Pos")
+            if(item == "Player")
             {
-                float x = file.GetFloat();
-                float y = file.GetFloat();
-                Position = new Vector2(x, y);
+                for(int i = 0; i < file.Get32(); i++)
+                {
+                    item = file.GetPascalString();
+                    if(item == "Pos")
+                    {
+                        float x = file.GetFloat();
+                        float y = file.GetFloat();
+                        Position = new Vector2(x, y);
+                    }
+                    else if(item == "Equip")
+                    {
+                        Slot1 = (int)file.Get64();
+                        Slot2 = (int)file.Get64();
+                        Slot3 = (int)file.Get64();
+                        Slot4 = (int)file.Get64();
+                    }
+                }
+
             }
         }
         file.Close();

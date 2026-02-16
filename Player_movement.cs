@@ -22,7 +22,7 @@ public partial class Player_movement : RigidBody2D
 		_xAxis = Input.GetAxis("look_left","look_right");
 		//GD.Print(_xAxis);
 		_yAxis = Input.GetAxis("look_up","look_down");
-		GD.Print(Position);
+		//GD.Print(Position);
 		if(_xAxis!=0 || _yAxis!=0 ){
 			GetNode<AnimatedSprite2D>("reticule").Position+=new Vector2(_xAxis,_yAxis);
 			a=(float)Math.PI;//Position.AngleToPoint(GetNode<AnimatedSprite2D>("reticule").Position);
